@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const articleSchema = new mongoose.Schema({
 	pid: {
-		type: Number,
+		type: mongoose.Types.ObjectId,
 		required: true,
 	},
 	author: {

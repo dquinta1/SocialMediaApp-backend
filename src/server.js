@@ -1,23 +1,34 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 // TODO: import libraries as needed
 // TODO: import middlewares as needed
+const auth = require('./api/auth/auth');
 const articlesRouter = require('./api/routes/articlesRoute');
 const articleRouter = require('./api/routes/articleRoute');
-// TODO: import routes
+const profileRouter = require('./api/routes/profileRoute');
+const followingRouter = require('./api/routes/followingRoute');
 
-mongoose.connection.on('connected', function (ref) {
+mongoose.connection.on('connected', (ref) => {
 	console.log('Connected to DB!');
 
 	const app = express();
 
-	// Add middleware set-up
+	// Middleware set-up
 	app.use(express.urlencoded({ extended: true }));
 	app.use(express.json());
-	// Add routes
+	app.use(cookieParser()); // TODO: Remove if auth implemented with JWT
+	// TODO: add middlewares
+
+	// validate user authentication
+	// auth(app);
+
+	// Routes
 	app.use('/articles', articlesRouter);
 	app.use('/article', articleRouter);
+	app.use('/profile', profileRouter);
+	app.use('/following', followingRouter);
 
 	// Get the port from the environment, i.e., Heroku sets it
 	const port = process.env.PORT || 3000;
@@ -29,17 +40,17 @@ mongoose.connection.on('connected', function (ref) {
 });
 
 // If the connection throws an error
-mongoose.connection.on('error', function (err) {
+mongoose.connection.on('error', (err) => {
 	console.error('Failed to connect to DB on startup ', err);
 });
 
 // When the connection is disconnected
-mongoose.connection.on('disconnected', function () {
+mongoose.connection.on('disconnected', () => {
 	console.log('Mongoose default connection to DB: disconnected');
 });
 
-var gracefulExit = function () {
-	mongoose.connection.close(function () {
+var gracefulExit = () => {
+	mongoose.connection.close(() => {
 		console.log(
 			'Mongoose default connection with DB: is disconnected through app termination'
 		);
