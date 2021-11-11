@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/dquinta1/SocialMediaApp-backend#readme",
   "devDependencies": {
+    "dotenv": "^10.0.0",
     "jasmine-node": "^3.0.0",
     "nodemon": "^2.0.14"
   }
