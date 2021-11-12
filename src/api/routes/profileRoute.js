@@ -11,8 +11,11 @@ const {
 	GetDateOfBirthByUsername,
 	GetZipcodeByUsername,
 	GetAvatarByUsername,
+	// GetProfile,
 	UpdateProfile,
 } = require('../controllers/profile-controller');
+
+// router.get('/:user?', GetProfile);
 
 router.get('/headline', GetHeadline);
 router.get('/headline/:user', GetHeadlineByUsername);

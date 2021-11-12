@@ -1,5 +1,9 @@
 const Profile = require('../models/Profile');
 
+// async function QueryProfileByUsername(req, res) {
+// 	throw Error('Not Implemented');
+// }
+
 async function QueryHeadline(req, res) {
 	throw Error('Not Implemented');
 }
@@ -55,5 +59,6 @@ module.exports = {
 	QueryDateOfBirthByUsername,
 	QueryZipcodeByUsername,
 	QueryAvatarByUsername,
+	// QueryProfileByUsername,
 	UpdateUserProfile,
 };

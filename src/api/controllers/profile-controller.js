@@ -9,8 +9,14 @@ const {
 	QueryDateOfBirthByUsername,
 	QueryZipcodeByUsername,
 	QueryAvatarByUsername,
+	// QueryProfileByUsername,
 	UpdateUserProfile,
 } = require('../services/profile-service');
+
+// async function GetProfile(req, res) {
+// 	const profile = await QueryProfileByUsername(req, res);
+// 	res.json(profile);
+// }
 
 async function GetHeadline(req, res) {
 	const headline = await QueryHeadline(req, res);
@@ -78,5 +84,6 @@ module.exports = {
 	GetDateOfBirthByUsername,
 	GetZipcodeByUsername,
 	GetAvatarByUsername,
+	// GetProfile,
 	UpdateProfile,
 };

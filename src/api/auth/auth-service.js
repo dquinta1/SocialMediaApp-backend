@@ -12,8 +12,18 @@ async function SignUpWithUsernameAndPassword(req, res) {
 	throw Error('Not Implemented');
 }
 
+async function SignOut(req, res) {
+	throw Error('Not Implemented');
+}
+
+async function ReplacePassword(req, res) {
+	throw Error('Not Implemented');
+}
+
 module.exports = {
 	ValidateUserAuthentication,
 	SignInWithUsernameAndPassword,
 	SignUpWithUsernameAndPassword,
+	SignOut,
+	ReplacePassword,
 };
