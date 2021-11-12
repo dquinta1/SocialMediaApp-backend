@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const Profile = require('../models/Profile');
 
 async function QueryFollowingList(req, res) {
 	throw Error('Not Implemented');

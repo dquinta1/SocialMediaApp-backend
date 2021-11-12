@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const Profile = require('../models/Profile');
 
 async function QueryHeadline(req, res) {
 	throw Error('Not Implemented');
