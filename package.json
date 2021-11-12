@@ -1,7 +1,7 @@
 {
   "name": "social-media-app-backend",
   "version": "1.0.0",
-  "description": "This is a temporary repo to implement the backend for the SocialMediaApp project",
+  "description": "This project implements the backend for the SocialMediaApp project",
   "main": "server.js",
   "scripts": {
     "test": "jasmine-node src/api/spec",
