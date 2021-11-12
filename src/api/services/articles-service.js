@@ -30,8 +30,9 @@ async function CreateNewArticle(req, res) {
 		text: req.body.text,
 	});
 	try {
-		const newArticle = await article.save();
-		return newArticle;
+		await article.save();
+		const newArticles = await QueryArticles(req, res);
+		return newArticles;
 	} catch (error) {
 		return res.status(400).json({ message: error.message });
 	}

@@ -5,19 +5,31 @@ const {
 	UpdateArticleById,
 } = require('../services/articles-service');
 
-async function GetAllArticles(req, res) {
-	const articles = await QueryArticles(req, res);
-	res.json(articles);
+/**
+ * Returns an article if the id was specified, otherwise returns list of articles
+ * authored by user and the users followed by them.
+ * @param req The request
+ * @param {optional} req.params.id The id of the specific article to return
+ * @param res The response containing the specified article or list of articles
+ */
+async function GetArticles(req, res) {
+	if (!req.params.id) {
+		const articles = await QueryArticles(req, res);
+		res.json(articles);
+	} else {
+		const article = await QueryArticleById(req, res);
+		res.json(article);
+	}
 }
 
-async function GetArticleById(req, res) {
-	const article = await QueryArticleById(req, res);
-	res.json(article);
-}
-
+/**
+ * Creates a new article authored by the loggedInUser
+ * @param req The request containing the contents of the article to be created
+ * @param res The response containing array of articles with newly added article
+ */
 async function AddNewArticle(req, res) {
-	const newArticle = await CreateNewArticle(req, res);
-	res.status(201).json(newArticle);
+	const articles = await CreateNewArticle(req, res);
+	res.status(201).json(articles);
 }
 
 /**
@@ -67,8 +79,7 @@ async function RemoveCommentAtIndex(req, res) {
 }
 
 module.exports = {
-	GetAllArticles,
-	GetArticleById,
+	GetArticles,
 	AddNewArticle,
 	UpdateArticle,
 	AddNewComment,

@@ -1,16 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const {
-	GetAllArticles,
-	GetArticleById,
+	GetArticles,
 	UpdateArticle,
 	AddNewComment,
 	UpdateCommentAtIndex,
 	RemoveCommentAtIndex,
 } = require('../controllers/articles-controller');
 
-router.get('/', GetAllArticles);
-router.get('/:id', GetArticleById);
+router.get('/:id?', GetArticles);
 router.patch('/:id', UpdateArticle);
 router.post('/:id/comment', AddNewComment);
 router.patch('/:id/comments/:index', UpdateCommentAtIndex);
