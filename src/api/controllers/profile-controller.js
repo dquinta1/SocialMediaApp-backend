@@ -1,79 +1,74 @@
 const {
-	QueryHeadline,
-	QueryEmail,
-	QueryDateOfBirth,
-	QueryZipcode,
-	QueryAvatar,
-	QueryHeadlineByUsername,
-	QueryEmailByUsername,
-	QueryDateOfBirthByUsername,
-	QueryZipcodeByUsername,
-	QueryAvatarByUsername,
-	// QueryProfileByUsername,
+	QueryProfileByUsername,
 	UpdateUserProfile,
 } = require('../services/profile-service');
 
-// async function GetProfile(req, res) {
-// 	const profile = await QueryProfileByUsername(req, res);
-// 	res.json(profile);
-// }
-
-async function GetHeadline(req, res) {
-	const headline = await QueryHeadline(req, res);
-	res.json(headline);
-}
-
-async function GetEmail(req, res) {
-	const email = await QueryEmail(req, res);
-	res.json(email);
-}
-
-async function GetDateOfBirth(req, res) {
-	const dob = await QueryDateOfBirth(req, res);
-	res.json(dob);
-}
-
-async function GetZipcode(req, res) {
-	const zipcode = await QueryZipcode(req, res);
-	res.json(zipcode);
-}
-
-async function GetAvatar(req, res) {
-	const avatar = await QueryAvatar(req, res);
-	res.json(avatar);
-}
-
-async function GetHeadlineByUsername(req, res) {
-	const headline = await QueryHeadlineByUsername(req, res);
-	res.json(headline);
-}
-
-async function GetEmailByUsername(req, res) {
-	const email = await QueryEmailByUsername(req, res);
-	res.json(email);
-}
-
-async function GetDateOfBirthByUsername(req, res) {
-	const dob = await QueryDateOfBirthByUsername(req, res);
-	res.json(dob);
-}
-
-async function GetZipcodeByUsername(req, res) {
-	const zipcode = await QueryZipcodeByUsername(req, res);
-	res.json(zipcode);
-}
-
-async function GetAvatarByUsername(req, res) {
-	const avatar = await QueryAvatarByUsername(req, res);
-	res.json(avatar);
-}
-
-async function UpdateProfile(req, res) {
-	const profile = await UpdateUserProfile(req, res);
+async function GetProfile(req, res) {
+	const profile = await QueryProfileByUsername(req, res);
 	res.json(profile);
 }
 
+async function UpdateProfile(req, res) {
+	const updatedProfile = await UpdateUserProfile(req, res);
+	res.json(updatedProfile);
+}
+
+/***  redundant functions below ***/
+
+async function GetHeadline(req, res) {
+	const profile = await QueryProfileByUsername(req, res);
+	res.json(profile.headline);
+}
+
+async function GetEmail(req, res) {
+	const profile = await QueryProfileByUsername(req, res);
+	res.json(profile.email);
+}
+
+async function GetDateOfBirth(req, res) {
+	const profile = await QueryProfileByUsername(req, res);
+	res.json(profile.dob);
+}
+
+async function GetZipcode(req, res) {
+	const profile = await QueryProfileByUsername(req, res);
+	res.json(profile.zipcode);
+}
+
+async function GetAvatar(req, res) {
+	const profile = await QueryProfileByUsername(req, res);
+	res.json(profile.avatar);
+}
+
+async function GetHeadlineByUsername(req, res) {
+	const profile = await QueryProfileByUsername(req, res);
+	res.json(profile.headline);
+}
+
+async function GetEmailByUsername(req, res) {
+	const profile = await QueryProfileByUsername(req, res);
+	res.json(profile.email);
+}
+
+async function GetDateOfBirthByUsername(req, res) {
+	const profile = await QueryProfileByUsername(req, res);
+	res.json(profile.dob);
+}
+
+async function GetZipcodeByUsername(req, res) {
+	const profile = await QueryProfileByUsername(req, res);
+	res.json(profile.zipcode);
+}
+
+async function GetAvatarByUsername(req, res) {
+	const profile = await QueryProfileByUsername(req, res);
+	res.json(profile.avatar);
+}
+
 module.exports = {
+	GetProfile,
+	UpdateProfile,
+	// redundant exports below
 	GetHeadline,
 	GetEmail,
 	GetDateOfBirth,
@@ -84,6 +79,4 @@ module.exports = {
 	GetDateOfBirthByUsername,
 	GetZipcodeByUsername,
 	GetAvatarByUsername,
-	// GetProfile,
-	UpdateProfile,
 };
