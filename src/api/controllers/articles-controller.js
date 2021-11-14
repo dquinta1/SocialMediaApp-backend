@@ -4,6 +4,7 @@ const {
 	CreateNewArticle,
 	UpdateArticleById,
 } = require('../services/articles-service');
+const { QueryProfileByUsername } = require('../services/profile-service');
 
 /**
  * Returns an article if the id was specified, otherwise returns list of articles
@@ -14,7 +15,20 @@ const {
  */
 async function GetArticles(req, res) {
 	if (!req.params.id) {
-		const articles = await QueryArticles(req, res);
+		// find articles authored by loggedInUser
+		req.pid = req.session._id;
+		let articles = await QueryArticles(req, res);
+
+		// get all articles authored by loggedInUser's followed users
+		req.username = req.session.username;
+		const loggedInUserProfile = await QueryProfileByUsername(req, res);
+		if(loggedInUserProfile.following.length > 0){
+			loggedInUserProfile.following.forEach(async (following_id) => {
+				req.pid = following_id;
+				let followingArticles = await QueryArticles(req, res);
+				articles.concat(followingArticles);
+			});
+		}
 		res.json(articles);
 	} else {
 		const article = await QueryArticleById(req, res);

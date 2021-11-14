@@ -26,6 +26,24 @@ describe('Validate Article functionality', () => {
 
 	// beforeAll();
 
+	it('login user', (done) => {
+		let loginUser = { username: 'TestUser', password: 'TestPassword' };
+		fetch(url('/login'), {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(loginUser),
+		})
+			.catch((error) => console.log(error.message))
+			.then((res) => {
+				return res.json();
+			})
+			.then((res) => {
+				expect(res.username).toEqual('TestUser');
+				expect(res.result).toEqual('success');
+				done();
+			});
+	});
+
 	it('should give me three or more articles', (done) => {
 		fetch(url('/articles'), {
 			method: 'GET',
@@ -43,7 +61,10 @@ describe('Validate Article functionality', () => {
 		// add a new article
 		// verify you get the articles back with new article
 		// verify the id, author, content of the new article
-		let post = { author: 'Tom', body: 'A new post' };
+		let post = {
+			title: 'New Article',
+			body: 'lorem ipsum something something'
+		};
 
 		try {
 			fetch(url('/article'), {
@@ -56,9 +77,12 @@ describe('Validate Article functionality', () => {
 				.then((res) => {
 					if (res instanceof Array) {
 						// test new article expected id, author, post
-						expect(res[res.length - 1].id).toBe(res.length - 1);
-						expect(res[res.length - 1].author).toBe('Tom');
-						expect(res[res.length - 1].body).toBe('A new post');
+						expect(res[res.length - 1].pid).toBe('619058b39597cfb838b5b5ba');
+						expect(res[res.length - 1].author).toBe('TestUser');
+						expect(res[res.length - 1].title).toBe('New Article');
+						expect(res[res.length - 1].description).toBe(
+							'lorem ipsum something something'
+						);
 					}
 					done();
 				});
@@ -70,7 +94,7 @@ describe('Validate Article functionality', () => {
 	it('should return an article with a specified id', (done) => {
 		try {
 			//call GET /articles/id with the chosen id
-			fetch(url('/articles/1'), {
+			fetch(url('/articles/61918a89c57e0fd719810d35'), {
 				method: 'GET',
 				headers: { 'Content-Type': 'application/json' },
 			})
@@ -80,9 +104,11 @@ describe('Validate Article functionality', () => {
 				.then((res) => res.json())
 				.then((res) => {
 					// test new article expected id, author, post
-					expect(res.id).toBe(1);
-					expect(res.author).toBe('Jack');
-					expect(res.body).toBe('Post 2');
+					expect(res._id).toBe('61918a89c57e0fd719810d35');
+					expect(res.pid).toBe('619058b39597cfb838b5b5ba');
+					expect(res.author).toBe('TestUser');
+					expect(res.title).toBe('Article Created by TestUser');
+					expect(res.description).toBe('lorem ipsum something TEST');
 					done();
 				});
 		} catch (error) {

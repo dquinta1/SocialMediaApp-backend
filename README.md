@@ -4,22 +4,6 @@ This is a temporary repo to implement the backend for the SocialMediaApp project
 
 ### TODOs (by priority)
 
-#### Validate Feed Actions
-
-- Unit test to validate GET /headline
-- Unit test to validate PUT /headline
-- Unit test to validate GET /articles
-- Unit test to validate GET /articles/id
-- Unit test to validate POST /article
-
-#### Implement Endpoints
-
-- GET /headline/:user? returns the headline messages for requested users
-- PUT /headline updates the headline message
-- GET /articles returns articles for logged in user
-- POST /article returns an array of articles with newly added article
-- implement GET /articles and GET /articles/:id as one endpoint not two
-
 #### Implement file/image upload functionality
 
 - POST /article returns an array of articles with newly added article

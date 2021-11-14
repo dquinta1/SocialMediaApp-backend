@@ -1,7 +1,7 @@
 const Profile = require('../models/Profile');
 
 async function QueryFollowingList(req, res) {
-	throw Error('Not Implemented');
+	return [];
 }
 
 async function QueryFollowingByUsername(req, res) {

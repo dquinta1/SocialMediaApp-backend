@@ -1,11 +1,35 @@
 const Profile = require('../models/Profile');
 
 async function QueryProfileByUsername(req, res) {
-	throw Error('Not Implemented');
+	// query loggedInUser's profile if no specific username is passed
+	if (!req.params.user) {
+		try {
+			const profile = await Profile.findOne({ username: req.session.username });
+			return profile;
+		} catch (error) {
+			res.status(500).json({ message: error.message });
+		}
+	} else {
+		try {
+			const profile = await Profile.findOne({ username: req.params.user });
+			return profile;
+		} catch (error) {
+			res.status(500).json({ message: error.message });
+		}
+	}
 }
 
 async function UpdateUserProfile(req, res) {
-	throw Error('Not Implemented');
+	try {
+		const newProfile = await Profile.findOneAndUpdate(
+			{ username: req.session.username },
+			req.body,
+			{ returnDocument: 'after' }
+		);
+		return newProfile;
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
 }
 
 module.exports = {

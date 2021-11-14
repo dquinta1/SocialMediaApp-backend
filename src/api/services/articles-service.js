@@ -3,8 +3,8 @@ const Comment = require('../models/Comment');
 
 async function QueryArticles(req, res) {
 	try {
-		const articles = await Article.find();
-		return articles; // TODO: return only the articles authored by loggedInUser and Followings
+		const articles = await Article.find({ pid: req.pid });
+		return articles;
 	} catch (error) {
 		return res.status(500).json({ message: error.message });
 	}
@@ -24,13 +24,17 @@ async function QueryArticleById(req, res) {
 }
 
 async function CreateNewArticle(req, res) {
+	const { _id, username } = req.session;
+	const { title, description } = req.body;
 	const article = new Article({
-		pid: req.body.pid, // TODO: replace for _id of the loggedInUser
-		author: req.body.author, // TODO: replace for username of loggedInUser
-		text: req.body.text,
+		pid: _id,
+		author: username,
+		title,
+		description,
 	});
 	try {
 		await article.save();
+		req.pid = article.pid;
 		const newArticles = await QueryArticles(req, res);
 		return newArticles;
 	} catch (error) {

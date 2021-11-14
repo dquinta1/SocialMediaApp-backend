@@ -24,7 +24,8 @@ const profileSchema = new mongoose.Schema({
 	avatar: {
 		type: String,
 		required: false,
-	}
+	},
+	following: []
 });
 
 module.exports = mongoose.model('Profile', profileSchema);

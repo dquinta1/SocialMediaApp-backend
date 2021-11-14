@@ -32,6 +32,7 @@ async function SignInWithUsernameAndPassword(req, res) {
 		/* Using session */
 		req.session.isAuth = true;
 		req.session.username = user.username;
+		req.session._id = user._id;
 		let msg = { username: username, result: 'success' };
 		res.send(msg);
 		/**END**/
@@ -78,30 +79,31 @@ async function SignUpWithUsernameAndPassword(req, res) {
 		return res.status(500).json({ message: error.message });
 	}
 
-	// create new User saving user's auth data
-	user = new User({
-		username: username,
-		password: hasdPsw,
-	});
-
-	// create new Profile with new User's info
-	const { headline, email, zipcode, dob } = req.body;
-	const profile = new Profile({
-		username: username,
-		headline: headline,
-		email: email,
-		zipcode: zipcode,
-		dob: dob,
-	});
-
 	// save new user and send success message if no errors are found
 	try {
+		// create new User saving user's auth data
+		user = new User({
+			username: username,
+			password: hasdPsw,
+		});
 		await user.save();
+
+		// create new Profile with new User's info
+		const { headline, email, zipcode, dob } = req.body;
+		const profile = new Profile({
+			_id: user._id,
+			username: username,
+			headline: headline,
+			email: email,
+			zipcode: zipcode,
+			dob: dob,
+		});
 		await profile.save();
 
 		/* Using sessions */
 		req.session.isAuth = true;
 		req.session.username = user.username;
+		req.session._id = user._id;
 		let msg = { username: username, result: 'success' };
 		res.send(msg);
 		/**END**/

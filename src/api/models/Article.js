@@ -9,7 +9,11 @@ const articleSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	text: {
+	title: {
+		type: String,
+		required: true,
+	},
+	description: {
 		type: String,
 		required: true,
 	},
@@ -17,6 +21,10 @@ const articleSchema = new mongoose.Schema({
 		type: Date,
 		required: true,
 		default: Date.now,
+	},
+	image: {
+		type: String,
+		required: false,
 	},
 	comments: [],
 });
