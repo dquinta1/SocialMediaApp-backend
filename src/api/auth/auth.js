@@ -1,15 +1,15 @@
 const {
 	login,
 	register,
-	isLoggedIn,
 	logout,
 	UpdatePassword,
 } = require('./auth-controller');
+const isAuth = require('../middlewares/is-auth');
 
 module.exports = (app) => {
 	app.post('/login', login);
 	app.post('/register', register);
-	app.use(isLoggedIn);
+	app.use(isAuth);
 	app.post('/password', UpdatePassword);
 	app.put('/logout', logout);
 };

@@ -1,7 +1,8 @@
 require('dotenv').config();
 const express = require('express');
+const session = require('express-session');
 const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser');
+const redis = require('redis');
 // TODO: import libraries as needed
 // TODO: import middlewares as needed
 const auth = require('./api/auth/auth');
@@ -10,19 +11,44 @@ const articleRouter = require('./api/routes/articleRoute');
 const profileRouter = require('./api/routes/profileRoute');
 const followingRouter = require('./api/routes/followingRoute');
 
+// testing session caching with mongoDB
+const MongoDBStore = require('connect-mongodb-session')(session);
+const store = new MongoDBStore({
+	collection: 'mySessions',
+	uri: process.env.CONNECTION_STRING,
+});
+
 mongoose.connection.on('connected', (ref) => {
 	console.log('Connected to DB!');
 
 	const app = express();
 
+	// Redis memcache set-up
+	let RedisStore = require('connect-redis')(session);
+	let redisClient = redis.createClient({
+		host: process.env.REDIS_HOST,
+		port: process.env.REDIS_PORT,
+		auth_pass: process.env.REDIS_PASSWORD,
+	});
+	redisClient.on('error', (err) => console.log('Redis Client Error', err));
+
 	// Middleware set-up
 	app.use(express.urlencoded({ extended: true }));
 	app.use(express.json());
-	app.use(cookieParser()); // TODO: Remove if auth implemented with JWT
+	app.use(
+		session({
+			// store: new RedisStore({ client: redisClient }),
+			store: store,
+			cookie: { maxAge: 3600 * 1000 },
+			secret: process.env.REDIS_SECRET,
+			saveUninitialized: false,
+			resave: false,
+		})
+	);
 	// TODO: add middlewares
 
 	// validate user authentication
-	// auth(app);
+	auth(app);
 
 	// Routes
 	app.use('/articles', articlesRouter);
@@ -67,7 +93,7 @@ try {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	});
-	console.log('Trying to connect to DB ');
+	console.log('Trying to connect to DB');
 } catch (err) {
 	console.log('Sever initialization failed ', err.message);
 }
