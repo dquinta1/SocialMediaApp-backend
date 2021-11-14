@@ -20,13 +20,7 @@ This is a temporary repo to implement the backend for the SocialMediaApp project
 
 #### Implement Auth
 
-- Implement sessionId cookie method
 - Implement JWT method
-
-#### Auth Requirements
-
-- Session id is stored as httpOnly cookie
-- User passwords are hashed and salted using md5 or encrypted with bcrypt
 
 #### Implement Endpoints
 
