@@ -4,12 +4,6 @@ This is a temporary repo to implement the backend for the SocialMediaApp project
 
 ### TODOs (by priority)
 
-#### Validate Auth
-
-- Unit test to validate POST /register
-- Unit test to validate POST /login
-- Unit test to validate PUT /logout
-
 #### Validate Feed Actions
 
 - Unit test to validate GET /headline
@@ -17,10 +11,6 @@ This is a temporary repo to implement the backend for the SocialMediaApp project
 - Unit test to validate GET /articles
 - Unit test to validate GET /articles/id
 - Unit test to validate POST /article
-
-#### Implement Auth
-
-- Implement JWT method
 
 #### Implement Endpoints
 

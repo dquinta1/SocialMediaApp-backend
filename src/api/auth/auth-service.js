@@ -1,3 +1,5 @@
+// require('dotenv').config();
+// const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const Profile = require('../models/Profile');
@@ -18,6 +20,7 @@ async function SignInWithUsernameAndPassword(req, res) {
 		res.sendStatus(401);
 	}
 
+	// set auth params and send success message if no errors are found
 	try {
 		const isMatch = await bcrypt.compare(password, user.password);
 
@@ -26,11 +29,26 @@ async function SignInWithUsernameAndPassword(req, res) {
 			res.sendStatus(401);
 		}
 
-		// set auth params and send success message if no errors are found
+		/* Using session */
 		req.session.isAuth = true;
 		req.session.username = user.username;
 		let msg = { username: username, result: 'success' };
 		res.send(msg);
+		/**END**/
+
+		/* Using JWT */
+		// const payload = {
+		// 	user: {
+		// 		username: user.username,
+		// 	},
+		// };
+
+		// const token = jwt.sign(payload, process.env.JWT_SECRET, {
+		// 	expiresIn: '1hr',
+		// });
+
+		// res.json({ token });
+		/**END**/
 	} catch (error) {
 		return res.status(500).json({ message: error.message });
 	}
@@ -62,38 +80,67 @@ async function SignUpWithUsernameAndPassword(req, res) {
 
 	// create new User saving user's auth data
 	user = new User({
-		username,
+		username: username,
 		password: hasdPsw,
 	});
 
 	// create new Profile with new User's info
 	const { headline, email, zipcode, dob } = req.body;
 	const profile = new Profile({
-		username,
-		headline,
-		email,
-		zipcode,
-		dob,
+		username: username,
+		headline: headline,
+		email: email,
+		zipcode: zipcode,
+		dob: dob,
 	});
 
+	// save new user and send success message if no errors are found
 	try {
-		// save new user and send success message if no errors are found
 		await user.save();
 		await profile.save();
+
+		/* Using sessions */
+		req.session.isAuth = true;
+		req.session.username = user.username;
 		let msg = { username: username, result: 'success' };
 		res.send(msg);
+		/**END**/
+
+		/* Using JWT */
+		// const payload = {
+		// 	user: {
+		// 		username: user.username,
+		// 	},
+		// };
+
+		// const token = jwt.sign(payload, process.env.JWT_SECRET, {
+		// 	expiresIn: '1hr',
+		// });
+
+		// res.status(201).json({ token });
+		/**END**/
 	} catch (error) {
 		return res.status(400).json({ message: error.message });
 	}
 }
 
 async function SignOut(req, res) {
-	req.session.destroy((err) => {
+	/* Using sessions */
+	await req.session.destroy((err) => {
 		if (err) {
 			res.status(500).json({ message: error.message });
 		}
 		res.send({ result: 'success' });
 	});
+	/**END**/
+
+	/* Using JWT */
+	// try {
+	// 	req.cookie('jwt', '', { maxAge: 1});
+	// } catch (error) {
+	// 	res.status(500).json({ message: error.message });
+	// }
+	/**END**/
 }
 
 async function ReplacePassword(req, res) {

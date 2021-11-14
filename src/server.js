@@ -12,11 +12,11 @@ const profileRouter = require('./api/routes/profileRoute');
 const followingRouter = require('./api/routes/followingRoute');
 
 // testing session caching with mongoDB
-const MongoDBStore = require('connect-mongodb-session')(session);
-const store = new MongoDBStore({
-	collection: 'mySessions',
-	uri: process.env.CONNECTION_STRING,
-});
+// const MongoDBStore = require('connect-mongodb-session')(session);
+// const store = new MongoDBStore({
+// 	collection: 'mySessions',
+// 	uri: process.env.CONNECTION_STRING,
+// });
 
 mongoose.connection.on('connected', (ref) => {
 	console.log('Connected to DB!');
@@ -37,8 +37,8 @@ mongoose.connection.on('connected', (ref) => {
 	app.use(express.json());
 	app.use(
 		session({
-			// store: new RedisStore({ client: redisClient }),
-			store: store,
+			store: new RedisStore({ client: redisClient }),
+			// store: store,
 			cookie: { maxAge: 3600 * 1000 },
 			secret: process.env.REDIS_SECRET,
 			saveUninitialized: false,
