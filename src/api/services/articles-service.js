@@ -56,29 +56,28 @@ async function CreateNewArticle(req, res) {
  * @error
  */
 async function UpdateArticleById(req, res) {
-	let article = await QueryArticleById(req, res);
-
-	// perform specified action
-	switch (req.action) {
-		case 'updateArticle':
-			// TODO: replace article properties with those in req.body
-			throw Error('Not Implemented');
-		case 'addComment':
-			// TODO: push comment from req.body into article.comments
-			throw Error('Not Implemented');
-		case 'updateComment':
-			// TODO: replace comment at article.comments[req.params.index] with comment in req.body
-			throw Error('Not Implemented');
-		case 'deleteComment':
-			// TODO: remove comment at article.comments[req.params.index]
-			throw Error('Not Implemented');
-		default:
-			return res.status(400).json({ message: 'Invalid Action' });
-	}
-	// attempt to updat article in DB, then return it
 	try {
-		const newArticle = await article.save();
-		return newArticle;
+		// perform specified action
+		switch (req.action) {
+			case 'updateArticle':
+				const newArticle = await Article.findByIdAndUpdate(
+					req.params.id,
+					req.body,
+					{ returnDocument: 'after' }
+				);
+				return newArticle;
+			case 'addComment':
+				// TODO: push comment from req.body into article.comments
+				throw Error('Not Implemented');
+			case 'updateComment':
+				// TODO: replace comment at article.comments[req.params.index] with comment in req.body
+				throw Error('Not Implemented');
+			case 'deleteComment':
+				// TODO: remove comment at article.comments[req.params.index]
+				throw Error('Not Implemented');
+			default:
+				return res.status(400).json({ message: 'Invalid Action' });
+		}
 	} catch (error) {
 		return res.status(400).json({ message: error.message });
 	}
