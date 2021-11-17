@@ -21,8 +21,8 @@ async function QueryProfileByUsername(req, res) {
 
 async function UpdateUserProfile(req, res) {
 	try {
-		const newProfile = await Profile.findOneAndUpdate(
-			{ username: req.session.username },
+		const newProfile = await Profile.findByIdAndUpdate(
+			req.session._id,
 			req.body,
 			{ returnDocument: 'after' }
 		);
@@ -32,7 +32,21 @@ async function UpdateUserProfile(req, res) {
 	}
 }
 
+async function UpdateAvatar(req, res) {
+	try {
+		const avatarUrl = await Profile.findByIdAndUpdate(
+			req.session._id,
+			{ avatar: req.fileurl },
+			{ returnDocument: 'after' }
+		);
+		return avatarUrl;
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
+}
+
 module.exports = {
 	QueryProfileByUsername,
 	UpdateUserProfile,
+	UpdateAvatar,
 };

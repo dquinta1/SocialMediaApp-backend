@@ -1,6 +1,7 @@
 const {
 	QueryProfileByUsername,
 	UpdateUserProfile,
+	UpdateAvatar,
 } = require('../services/profile-service');
 
 async function GetProfile(req, res) {
@@ -11,6 +12,11 @@ async function GetProfile(req, res) {
 async function UpdateProfile(req, res) {
 	const updatedProfile = await UpdateUserProfile(req, res);
 	res.json(updatedProfile);
+}
+
+async function UploadAvatar(req, res) {
+	const avatarUrl = await UpdateAvatar(req, res);
+	res.json(avatarUrl);
 }
 
 /***  redundant functions below ***/
@@ -43,6 +49,7 @@ async function GetAvatarByUsername(req, res) {
 module.exports = {
 	GetProfile,
 	UpdateProfile,
+	UploadAvatar,
 	// redundant exports below
 	GetHeadlineByUsername,
 	GetEmailByUsername,

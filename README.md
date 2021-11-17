@@ -11,13 +11,8 @@ This is a temporary repo to implement the backend for the SocialMediaApp project
 #### Stub or Implement Remaining Endpoints
 
 - Stub: PUT /password
-- Stub: GET /email/:user?
-- Stub: PUT /email
-- Stub: GET /zipcode/:user?
-- Stub: PUT /zipcode
 - Stub: GET /avatar/:user?
 - Stub: PUT /avatar
-- Stub: GET /dob
 - Stub: PUT /articles/id
 - Stub: GET /following/:user?
 - Stub: PUT /following/:user

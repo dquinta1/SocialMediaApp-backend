@@ -11,6 +11,10 @@ const articleRouter = require('./api/routes/articleRoute');
 const profileRouter = require('./api/routes/profileRoute');
 const followingRouter = require('./api/routes/followingRoute');
 
+/* DELETE THIS IMPORT IN PRACTICE */
+const profile = require('./api/helpers/profile-endpoints'); // profile endpoints to satisfy requirements
+/***/
+
 // testing session caching with mongoDB
 // const MongoDBStore = require('connect-mongodb-session')(session);
 // const store = new MongoDBStore({
@@ -45,15 +49,19 @@ mongoose.connection.on('connected', (ref) => {
 			resave: false,
 		})
 	);
-	// TODO: add middlewares
+	// TODO: add middlewares as needed
 
 	// validate user authentication
 	auth(app);
 
+	/*DO NOT USE IN PRACTICE*/
+	profile(app); // profile endpoints to satisfy requirements
+	/***/
+
 	// Routes
 	app.use('/articles', articlesRouter);
 	app.use('/article', articleRouter);
-	app.use('/profile', profileRouter);
+	app.use('/user-profile', profileRouter);
 	app.use('/following', followingRouter);
 
 	// Get the port from the environment, i.e., Heroku sets it

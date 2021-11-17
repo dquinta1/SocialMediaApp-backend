@@ -132,7 +132,7 @@ async function SignOut(req, res) {
 		if (err) {
 			res.status(500).json({ message: error.message });
 		}
-		res.send({ result: 'success' });
+		res.sendStatus(200);
 	});
 	/**END**/
 
