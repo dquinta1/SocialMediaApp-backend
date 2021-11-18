@@ -34,9 +34,7 @@ async function CreateNewArticle(req, res) {
 	});
 	try {
 		await article.save();
-		req.pid = article.pid;
-		const newArticles = await QueryArticles(req, res);
-		return newArticles;
+		return article;
 	} catch (error) {
 		return res.status(400).json({ message: error.message });
 	}

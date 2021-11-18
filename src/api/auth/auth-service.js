@@ -149,6 +149,13 @@ async function SignOut(req, res) {
 async function ReplacePassword(req, res) {
 	const { oldPassword, newPassword } = req.body;
 
+	// supply old and new password
+	if (!oldPassword || !newPassword) {
+		return res
+			.status(401)
+			.json({ message: 'oldPassword and newPassword must be provided' });
+	}
+
 	try {
 		const user = await User.findById(req.session._id);
 		const isMatch = await bcrypt.compare(oldPassword, user.password);
@@ -163,7 +170,7 @@ async function ReplacePassword(req, res) {
 
 		// update hashed password on DB
 		await User.findByIdAndUpdate(req.session._id, { password: hasdPsw });
-		res.sendStatus(200);
+		res.send({ useranme: req.session.username, result: 'success' });
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}

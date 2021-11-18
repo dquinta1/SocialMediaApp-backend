@@ -44,7 +44,8 @@ async function QueryFollowingByUsername(req, res) {
 			// if user's username matches one of the usernames in list of following, user is found
 			profile.following.forEach((following_username) => {
 				if (following_username === followingUser.username) {
-					res.send(followingUser);
+					return res.send(followingUser);
+					// return followingUser;
 				}
 			});
 

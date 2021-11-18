@@ -16,34 +16,34 @@ async function UpdateProfile(req, res) {
 
 async function UploadAvatar(req, res) {
 	const profile = await UpdateAvatar(req, res);
-	res.json({ avatar: profile.avatar });
+	res.json({ username: req.session.user, avatar: profile.avatar });
 }
 
 /***  redundant functions below ***/
 
 async function GetHeadlineByUsername(req, res) {
 	const profile = await QueryProfileByUsername(req, res);
-	res.json({ headline: profile.headline });
+	res.json({ username: req.params.user || req.session.username, headline: profile.headline });
 }
 
 async function GetEmailByUsername(req, res) {
 	const profile = await QueryProfileByUsername(req, res);
-	res.json({ email: profile.email });
+	res.json({ username: req.params.user || req.session.username, email: profile.email });
 }
 
 async function GetDateOfBirthByUsername(req, res) {
 	const profile = await QueryProfileByUsername(req, res);
-	res.json({ dob: profile.dob });
+	res.json({ username: req.params.user || req.session.username, dob: profile.dob });
 }
 
 async function GetZipcodeByUsername(req, res) {
 	const profile = await QueryProfileByUsername(req, res);
-	res.json({ zipcode: profile.zipcode });
+	res.json({ username: req.params.user || req.session.username, zipcode: profile.zipcode });
 }
 
 async function GetAvatarByUsername(req, res) {
 	const profile = await QueryProfileByUsername(req, res);
-	res.json({ avatar: profile.avatar });
+	res.json({ username: req.params.user || req.session.username, avatar: profile.avatar });
 }
 
 module.exports = {

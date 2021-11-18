@@ -11,7 +11,7 @@ async function GetFollowingByUsername(req, res) {
 		res.json(followingList);
 	} else {
 		const following = await QueryFollowingByUsername(req, res);
-		res.json(following);
+		// res.json(following);
 	}
 }
 

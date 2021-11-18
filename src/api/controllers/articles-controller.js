@@ -27,14 +27,10 @@ async function GetArticles(req, res) {
 			for (const element of followingList) {
 				req.pid = element._id;
 				let followingArticles = await QueryArticles(req, res);
-				console.log('followingArticles', followingArticles);
-				articles.concat(followingArticles);
-				console.log('articles', articles);
+				articles = articles.concat(followingArticles);
 			}
-			res.json(articles);
-		} else {
-			res.json(articles);
 		}
+		res.json(articles);
 	} else {
 		const article = await QueryArticleById(req, res);
 		res.json(article);
@@ -47,7 +43,8 @@ async function GetArticles(req, res) {
  * @param res The response containing array of articles with newly added article
  */
 async function AddNewArticle(req, res) {
-	const articles = await CreateNewArticle(req, res);
+	const newArticle = await CreateNewArticle(req, res);
+	const articles = await GetArticles(req, res);
 	res.status(201).json(articles);
 }
 
@@ -59,7 +56,8 @@ async function AddNewArticle(req, res) {
 async function UpdateArticle(req, res) {
 	req.action = 'updateArticle';
 	const updatedArticle = await UpdateArticleById(req, res);
-	res.json(updatedArticle);
+	const articles = await GetArticles(req, res);
+	res.status(201).json(articles);
 }
 
 /**
