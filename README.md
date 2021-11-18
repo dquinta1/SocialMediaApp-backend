@@ -4,9 +4,12 @@ This is a temporary repo to implement the backend for the SocialMediaApp project
 
 ### TODOs (by priority)
 
+#### Fix
+
+- GET /articles only outputs articles authored by user (promise problem)
+
 #### Stub or Implement Remaining Endpoints
 
-- Stub: GET /following/:user?
 - Stub: POST /articles/:id/comment
 - Stub: PATCH /articles/:id/comments/:index
 - Stub: DELETE /articles/:id/comments/:index
