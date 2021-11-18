@@ -4,24 +4,21 @@ async function QueryFollowingList(req, res) {
 	try {
 		// get loggedInUser profile to access list of following
 		const profile = await Profile.findById(req.session._id);
-		console.log('QueryFollowingList', profile);
-		console.log('QueryFollowingList', profile.following[0]);
 
 		// check that user follows at least one other user
 		if (profile.following.length > 0) {
 			let followingList = [];
 
 			// query the users' profiles using the list of _id in loggedInUser's profile
-			await profile.following.forEach(async (following_username) => {
+			for (const following_username of profile.following) {
 				const newFollowing = await Profile.findOne({
 					username: following_username,
 				});
-				console.log('newFollowing', newFollowing);
 				followingList.push(newFollowing);
-			});
-			res.send(followingList);
+			}
+			return followingList;
 		} else {
-			res.send(profile.following);
+			return [];
 		}
 	} catch (error) {
 		res.status(500).json({ message: error.message });
@@ -46,9 +43,7 @@ async function QueryFollowingByUsername(req, res) {
 
 			// if user's username matches one of the usernames in list of following, user is found
 			profile.following.forEach((following_username) => {
-				console.log('following_username', following_username);
 				if (following_username === followingUser.username) {
-					console.log('following_username', following_username);
 					res.send(followingUser);
 				}
 			});
@@ -78,33 +73,29 @@ async function AddUserToFollowingList(req, res) {
 		const profile = await Profile.findById(req.session._id);
 
 		if (profile.following.length > 0) {
-			profile.following.forEach((following_username) => {
+			for (const following_username of profile.following) {
 				// user is already being followed by loggedInUser
 				if (newFollowing.username === following_username) {
 					return res
 						.status(400)
 						.json({ message: 'You already follow this user' });
 				}
-			});
+			}
 
 			// add following id to list and update loggedInUser's profile
 			let newFollowingList = profile.following;
 			newFollowingList.push(newFollowing.username);
-			await Profile.findByIdAndUpdate(
-				req.session._id,
-				{ following: newFollowingList },
-				{ returnDocument: 'after' }
-			);
+			await Profile.findByIdAndUpdate(req.session._id, {
+				following: newFollowingList,
+			});
 		} else {
 			// update loggedInUser's following list with new user
-			await Profile.findByIdAndUpdate(
-				req.session._id,
-				{ following: [newFollowing.username] },
-				{ returnDocument: 'after' }
-			);
+			await Profile.findByIdAndUpdate(req.session._id, {
+				following: [newFollowing.username],
+			});
 		}
 		// return updated list of following Users
-		await QueryFollowingList(req, res);
+		return await QueryFollowingList(req, res);
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}

@@ -21,17 +21,20 @@ async function GetArticles(req, res) {
 		let articles = await QueryArticles(req, res);
 
 		// get all articles authored by loggedInUser's followed users
-		req.username = req.session.username;
 		const loggedInUserProfile = await QueryProfileByUsername(req, res);
 		if (loggedInUserProfile.following.length > 0) {
 			const followingList = await QueryFollowingList(req, res);
-			followingList.forEach(async (following) => {
-				req.pid = following._id;
+			for (const element of followingList) {
+				req.pid = element._id;
 				let followingArticles = await QueryArticles(req, res);
+				console.log('followingArticles', followingArticles);
 				articles.concat(followingArticles);
-			});
+				console.log('articles', articles);
+			}
+			res.json(articles);
+		} else {
+			res.json(articles);
 		}
-		res.json(articles);
 	} else {
 		const article = await QueryArticleById(req, res);
 		res.json(article);
