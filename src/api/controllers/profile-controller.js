@@ -6,17 +6,17 @@ const {
 
 async function GetProfile(req, res) {
 	const profile = await QueryProfileByUsername(req, res);
-	res.json(profile);
+	res.json({ profile: profile });
 }
 
 async function UpdateProfile(req, res) {
 	const updatedProfile = await UpdateUserProfile(req, res);
-	res.json(updatedProfile);
+	res.json({ profile: updatedProfile });
 }
 
 async function UploadAvatar(req, res) {
-	const avatarUrl = await UpdateAvatar(req, res);
-	res.json(avatarUrl);
+	const profile = await UpdateAvatar(req, res);
+	res.json({ avatar: profile.avatar });
 }
 
 /***  redundant functions below ***/

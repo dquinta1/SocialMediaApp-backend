@@ -9,7 +9,7 @@ const {
 } = require('../controllers/articles-controller');
 
 router.get('/:id?', GetArticles);
-router.patch('/:id', UpdateArticle);
+router.put('/:id', UpdateArticle);
 router.post('/:id/comment', AddNewComment);
 router.patch('/:id/comments/:index', UpdateCommentAtIndex);
 router.delete('/:id/comments/:index', RemoveCommentAtIndex);

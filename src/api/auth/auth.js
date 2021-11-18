@@ -10,6 +10,6 @@ module.exports = (app) => {
 	app.post('/login', login);
 	app.post('/register', register);
 	app.use(isAuth);
-	app.post('/password', UpdatePassword);
+	app.put('/password', UpdatePassword);
 	app.put('/logout', logout);
 };

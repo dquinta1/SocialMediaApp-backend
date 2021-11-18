@@ -97,6 +97,7 @@ async function SignUpWithUsernameAndPassword(req, res) {
 			email: email,
 			zipcode: zipcode,
 			dob: dob,
+			avatar: null,
 		});
 		await profile.save();
 
@@ -146,7 +147,26 @@ async function SignOut(req, res) {
 }
 
 async function ReplacePassword(req, res) {
-	throw Error('Not Implemented');
+	const { oldPassword, newPassword } = req.body;
+
+	try {
+		const user = await User.findById(req.session._id);
+		const isMatch = await bcrypt.compare(oldPassword, user.password);
+
+		// wrong password provided
+		if (!isMatch) {
+			res.sendStatus(401);
+		}
+
+		// hash password and save hash in DB
+		const hasdPsw = await bcrypt.hash(newPassword, 12);
+
+		// update hashed password on DB
+		await User.findByIdAndUpdate(req.session._id, { password: hasdPsw });
+		res.sendStatus(200);
+	} catch (error) {
+		res.status(500).json({ message: error.message });
+	}
 }
 
 module.exports = {

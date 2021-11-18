@@ -4,6 +4,7 @@ const {
 	CreateNewArticle,
 	UpdateArticleById,
 } = require('../services/articles-service');
+const { QueryFollowingList } = require('../services/following-service');
 const { QueryProfileByUsername } = require('../services/profile-service');
 
 /**
@@ -22,9 +23,10 @@ async function GetArticles(req, res) {
 		// get all articles authored by loggedInUser's followed users
 		req.username = req.session.username;
 		const loggedInUserProfile = await QueryProfileByUsername(req, res);
-		if(loggedInUserProfile.following.length > 0){
-			loggedInUserProfile.following.forEach(async (following_id) => {
-				req.pid = following_id;
+		if (loggedInUserProfile.following.length > 0) {
+			const followingList = await QueryFollowingList(req, res);
+			followingList.forEach(async (following) => {
+				req.pid = following._id;
 				let followingArticles = await QueryArticles(req, res);
 				articles.concat(followingArticles);
 			});

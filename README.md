@@ -4,19 +4,9 @@ This is a temporary repo to implement the backend for the SocialMediaApp project
 
 ### TODOs (by priority)
 
-#### Implement file/image upload functionality
-
-- POST /article returns an array of articles with newly added article
-
 #### Stub or Implement Remaining Endpoints
 
-- Stub: PUT /password
-- Stub: GET /avatar/:user?
-- Stub: PUT /avatar
-- Stub: PUT /articles/id
 - Stub: GET /following/:user?
-- Stub: PUT /following/:user
-- Stub: DELETE /following/:user
 - Stub: POST /articles/:id/comment
 - Stub: PATCH /articles/:id/comments/:index
 - Stub: DELETE /articles/:id/comments/:index

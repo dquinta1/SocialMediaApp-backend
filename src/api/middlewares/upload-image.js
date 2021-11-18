@@ -4,13 +4,17 @@ const cloudinary = require('../utils/cloudinary');
 
 const doUpload = (publicId, req, res, next) => {
 	const uploadStream = cloudinary.uploader.upload_stream(
-		(result) => {
-			// capture the url and public_id and add to the request
-			req.fileurl = result.url;
-			req.fileid = result.public_id;
-			next();
-		},
-		{ public_id: req.body[publicId] }
+		{ public_id: req.body[publicId] },
+		(error, result) => {
+			if (error) {
+				console.log(error);
+			} else {
+				// capture the url and public_id and add to the request
+				req.fileurl = result.url;
+				req.fileid = result.public_id;
+				next();
+			}
+		}
 	);
 
 	const s = new stream.PassThrough();

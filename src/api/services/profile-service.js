@@ -34,12 +34,12 @@ async function UpdateUserProfile(req, res) {
 
 async function UpdateAvatar(req, res) {
 	try {
-		const avatarUrl = await Profile.findByIdAndUpdate(
+		const newProfile = await Profile.findByIdAndUpdate(
 			req.session._id,
 			{ avatar: req.fileurl },
 			{ returnDocument: 'after' }
 		);
-		return avatarUrl;
+		return newProfile;
 	} catch (error) {
 		res.status(500).json({ message: error.message });
 	}
