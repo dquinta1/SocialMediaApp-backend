@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "jasmine-node src/api/spec",
-    "start": "nodemon src/server.js"
+    "dev": "nodemon --watch .env --watch src -r dotenv/config src/server.js",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",

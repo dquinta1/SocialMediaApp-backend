@@ -1,18 +1,17 @@
-require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const redis = require('redis');
 // TODO: import libraries as needed
 // TODO: import middlewares as needed
-const auth = require('./src/api/auth/auth');
-const articlesRouter = require('./src/api/routes/articlesRoute');
-const articleRouter = require('./src/api/routes/articleRoute');
-const profileRouter = require('./src/api/routes/profileRoute');
-const followingRouter = require('./src/api/routes/followingRoute');
+const auth = require('./api/auth/auth');
+const articlesRouter = require('./api/routes/articlesRoute');
+const articleRouter = require('./api/routes/articleRoute');
+const profileRouter = require('./api/routes/profileRoute');
+const followingRouter = require('./api/routes/followingRoute');
 
 /* DELETE THIS IMPORT IN PRACTICE */
-const profile = require('./src/api/helpers/profile-endpoints'); // profile endpoints to satisfy requirements
+const profile = require('./api/helpers/profile-endpoints'); // profile endpoints to satisfy requirements
 /***/
 
 // testing session caching with mongoDB
