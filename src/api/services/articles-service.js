@@ -1,9 +1,13 @@
 const Article = require('../models/Article');
 const Comment = require('../models/Comment');
+const Profile = require('../models/Profile');
 
 async function QueryArticles(req, res) {
 	try {
-		const articles = await Article.find({ pid: req.pid });
+		const profile = await Profile.findById(req.session._id);
+		let usernames = profile.following != null ? profile.following : [];
+		usernames.push(req.session.username);
+		const articles = await Article.find({ author: { $in: usernames } }).sort('-date');
 		return articles;
 	} catch (error) {
 		return res.status(500).json({ message: error.message });
@@ -65,14 +69,49 @@ async function UpdateArticleById(req, res) {
 				);
 				return newArticle;
 			case 'addComment':
-				// TODO: push comment from req.body into article.comments
-				throw Error('Not Implemented');
+				const profile = await Profile.findById(req.session._id);
+				const article = await Article.findById(req.params.id);
+				const newComment = new Comment({
+					pid: req.session._id,
+					author: req.session.username,
+					text: req.body.text,
+					avatar: profile.avatar,
+				});
+				if (article.comments) {
+					article.comments.push(newComment);
+				} else {
+					article.comments = [newComment];
+				}
+				const updatedArticle = await Article.findByIdAndUpdate(
+					req.params.id,
+					{ comments: article.comments },
+					{ returnDocument: 'after' }
+				);
+				return updatedArticle;
 			case 'updateComment':
-				// TODO: replace comment at article.comments[req.params.index] with comment in req.body
-				throw Error('Not Implemented');
+				let _article = await Article.findById(req.params.id);
+				let updatedComment = _article.comments[req.params.index];
+				updatedComment.text = req.body.text;
+				_article.comments[req.params.index] = updatedComment;
+				const _updatedArticle = await Article.findByIdAndUpdate(
+					req.params.id,
+					{ comments: _article.comments },
+					{ returnDocument: 'after' }
+				);
+				return _updatedArticle;
 			case 'deleteComment':
-				// TODO: remove comment at article.comments[req.params.index]
-				throw Error('Not Implemented');
+				let cur_article = await Article.findById(req.params.id);
+				let temp = cur_article.comments[cur_article.comments.length - 1];
+				cur_article.comments[cur_article.comments.length - 1] =
+					cur_article.comments[req.params.index];
+				cur_article.comments[req.params.index] = temp;
+				cur_article.comments.pop();
+				const updArticle = await Article.findByIdAndUpdate(
+					req.params.id,
+					{ comments: cur_article.comments },
+					{ returnDocument: 'after' }
+				);
+				return updArticle;
 			default:
 				return res.status(400).json({ message: 'Invalid Action' });
 		}

@@ -16,20 +16,7 @@ const { QueryProfileByUsername } = require('../services/profile-service');
  */
 async function GetArticles(req, res) {
 	if (!req.params.id) {
-		// find articles authored by loggedInUser
-		req.pid = req.session._id;
 		let articles = await QueryArticles(req, res);
-
-		// get all articles authored by loggedInUser's followed users
-		const loggedInUserProfile = await QueryProfileByUsername(req, res);
-		if (loggedInUserProfile.following.length > 0) {
-			const followingList = await QueryFollowingList(req, res);
-			for (const element of followingList) {
-				req.pid = element._id;
-				let followingArticles = await QueryArticles(req, res);
-				articles = articles.concat(followingArticles);
-			}
-		}
 		res.json(articles);
 	} else {
 		const article = await QueryArticleById(req, res);

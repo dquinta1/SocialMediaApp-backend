@@ -11,7 +11,7 @@ const {
 router.get('/:id?', GetArticles);
 router.put('/:id', UpdateArticle);
 router.post('/:id/comment', AddNewComment);
-router.patch('/:id/comments/:index', UpdateCommentAtIndex);
+router.put('/:id/comments/:index', UpdateCommentAtIndex);
 router.delete('/:id/comments/:index', RemoveCommentAtIndex);
 
 module.exports = router;

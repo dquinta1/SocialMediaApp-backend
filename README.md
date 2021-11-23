@@ -4,11 +4,11 @@ This is a temporary repo to implement the backend for the SocialMediaApp project
 
 ### TODOs (by priority)
 
-#### Stub or Implement Remaining Endpoints
+#### Implement Functionality
 
-- Stub: POST /articles/:id/comment
-- Stub: PATCH /articles/:id/comments/:index
-- Stub: DELETE /articles/:id/comments/:index
+- permit users to upload profile avatars and articles with pictures
+- add a third-party authentication option
+- add redis store for local account or pagination
 
 #### Unit Tests for remaining endpoints (not required at this stage)
 

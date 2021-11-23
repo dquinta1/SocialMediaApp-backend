@@ -7,8 +7,7 @@ const {
 } = require('../controllers/profile-controller');
 const uploadImage = require('../middlewares/upload-image');
 
-/* ONLY USE THESE ENDPOINTS IN PRACTICE */
-// router.get('/:user?', GetProfile);
+router.get('/:user?', GetProfile);
 router.patch('/', UpdateProfile);
 router.put('/avatar', uploadImage('avatar'), UploadAvatar);
 

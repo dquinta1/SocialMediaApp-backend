@@ -19,41 +19,8 @@ async function UploadAvatar(req, res) {
 	res.json({ username: req.session.user, avatar: profile.avatar });
 }
 
-/***  redundant functions below ***/
-
-async function GetHeadlineByUsername(req, res) {
-	const profile = await QueryProfileByUsername(req, res);
-	res.json({ username: req.params.user || req.session.username, headline: profile.headline });
-}
-
-async function GetEmailByUsername(req, res) {
-	const profile = await QueryProfileByUsername(req, res);
-	res.json({ username: req.params.user || req.session.username, email: profile.email });
-}
-
-async function GetDateOfBirthByUsername(req, res) {
-	const profile = await QueryProfileByUsername(req, res);
-	res.json({ username: req.params.user || req.session.username, dob: profile.dob });
-}
-
-async function GetZipcodeByUsername(req, res) {
-	const profile = await QueryProfileByUsername(req, res);
-	res.json({ username: req.params.user || req.session.username, zipcode: profile.zipcode });
-}
-
-async function GetAvatarByUsername(req, res) {
-	const profile = await QueryProfileByUsername(req, res);
-	res.json({ username: req.params.user || req.session.username, avatar: profile.avatar });
-}
-
 module.exports = {
 	GetProfile,
 	UpdateProfile,
 	UploadAvatar,
-	// redundant exports below
-	GetHeadlineByUsername,
-	GetEmailByUsername,
-	GetDateOfBirthByUsername,
-	GetZipcodeByUsername,
-	GetAvatarByUsername,
 };

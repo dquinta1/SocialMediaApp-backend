@@ -10,10 +10,6 @@ const articleRouter = require('./api/routes/articleRoute');
 const profileRouter = require('./api/routes/profileRoute');
 const followingRouter = require('./api/routes/followingRoute');
 
-/* DELETE THIS IMPORT IN PRACTICE */
-const profile = require('./api/helpers/profile-endpoints'); // profile endpoints to satisfy requirements
-/***/
-
 // testing session caching with mongoDB
 // const MongoDBStore = require('connect-mongodb-session')(session);
 // const store = new MongoDBStore({
@@ -52,10 +48,6 @@ mongoose.connection.on('connected', (ref) => {
 
 	// validate user authentication
 	auth(app);
-
-	/*DO NOT USE IN PRACTICE*/
-	profile(app); // profile endpoints to satisfy requirements
-	/***/
 
 	// Routes
 	app.use('/articles', articlesRouter);
