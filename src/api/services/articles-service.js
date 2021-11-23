@@ -7,7 +7,11 @@ async function QueryArticles(req, res) {
 		const profile = await Profile.findById(req.session._id);
 		let usernames = profile.following != null ? profile.following : [];
 		usernames.push(req.session.username);
-		const articles = await Article.find({ author: { $in: usernames } }).sort('-date');
+		const startIndex = req.startIndex || 0;
+		const articles = await Article.find({ author: { $in: usernames } })
+			.sort('-date')
+			.limit(5)
+			.skip(startIndex);
 		return articles;
 	} catch (error) {
 		return res.status(500).json({ message: error.message });

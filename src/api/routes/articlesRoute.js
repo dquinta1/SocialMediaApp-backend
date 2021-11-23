@@ -7,8 +7,9 @@ const {
 	UpdateCommentAtIndex,
 	RemoveCommentAtIndex,
 } = require('../controllers/articles-controller');
+const paginatedFeed = require('../middlewares/paginated-feed');
 
-router.get('/:id?', GetArticles);
+router.get('/:id?', paginatedFeed, GetArticles);
 router.put('/:id', UpdateArticle);
 router.post('/:id/comment', AddNewComment);
 router.put('/:id/comments/:index', UpdateCommentAtIndex);

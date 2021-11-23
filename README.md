@@ -8,7 +8,6 @@ This is a temporary repo to implement the backend for the SocialMediaApp project
 
 - permit users to upload profile avatars and articles with pictures
 - add a third-party authentication option
-- add redis store for local account or pagination
 
 #### Unit Tests for remaining endpoints (not required at this stage)
 

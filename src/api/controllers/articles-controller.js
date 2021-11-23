@@ -4,8 +4,6 @@ const {
 	CreateNewArticle,
 	UpdateArticleById,
 } = require('../services/articles-service');
-const { QueryFollowingList } = require('../services/following-service');
-const { QueryProfileByUsername } = require('../services/profile-service');
 
 /**
  * Returns an article if the id was specified, otherwise returns list of articles
