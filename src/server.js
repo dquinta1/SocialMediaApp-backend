@@ -1,21 +1,19 @@
 const express = require('express');
 const session = require('express-session');
+const cors = require('cors');
 const mongoose = require('mongoose');
 const redis = require('redis');
+const passport = require('passport');
 // TODO: import libraries as needed
 // TODO: import middlewares as needed
 const auth = require('./api/auth/auth');
+const googleStrategy = require('./api/utils/google-strategy');
 const articlesRouter = require('./api/routes/articlesRoute');
 const articleRouter = require('./api/routes/articleRoute');
 const profileRouter = require('./api/routes/profileRoute');
 const followingRouter = require('./api/routes/followingRoute');
 
-// testing session caching with mongoDB
-// const MongoDBStore = require('connect-mongodb-session')(session);
-// const store = new MongoDBStore({
-// 	collection: 'mySessions',
-// 	uri: process.env.CONNECTION_STRING,
-// });
+const corsOptions = { origin: 'http://localhost:8000', credentials: true };
 
 mongoose.connection.on('connected', (ref) => {
 	console.log('Connected to DB!');
@@ -34,16 +32,25 @@ mongoose.connection.on('connected', (ref) => {
 	// Middleware set-up
 	app.use(express.urlencoded({ extended: true }));
 	app.use(express.json());
+	app.use(cors(corsOptions));
 	app.use(
 		session({
 			store: new RedisStore({ client: redisClient }),
-			// store: store,
 			cookie: { maxAge: 3600 * 1000 },
 			secret: process.env.REDIS_SECRET,
 			saveUninitialized: false,
 			resave: false,
 		})
 	);
+	app.use(passport.initialize());
+	app.use(passport.session());
+	passport.serializeUser(function (user, done) {
+		done(null, user);
+	});
+	passport.deserializeUser(function (user, done) {
+		done(null, user);
+	});
+	passport.use(googleStrategy);
 	// TODO: add middlewares as needed
 
 	// validate user authentication
