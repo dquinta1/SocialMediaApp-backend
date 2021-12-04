@@ -133,10 +133,10 @@ async function DeleteFollowing(req, res) {
 			}
 
 			// user exists but is not being followed by loggedInUser
-			return res.status(404).json({ message: 'You do not follow this user' });
+			return res.status(401).json({ message: 'You do not follow this user' });
 		} else {
 			return res
-				.status(404)
+				.status(400)
 				.json({ message: 'You are not following any users' });
 		}
 	} catch (error) {

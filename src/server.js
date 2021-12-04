@@ -13,7 +13,7 @@ const articleRouter = require('./api/routes/articleRoute');
 const profileRouter = require('./api/routes/profileRoute');
 const followingRouter = require('./api/routes/followingRoute');
 
-const corsOptions = { origin: 'http://localhost:8000', credentials: true };
+const corsOptions = { origin: 'http://localhost:3000', credentials: true };
 
 mongoose.connection.on('connected', (ref) => {
 	console.log('Connected to DB!');
@@ -53,17 +53,28 @@ mongoose.connection.on('connected', (ref) => {
 	passport.use(googleStrategy);
 	// TODO: add middlewares as needed
 
+	// Google Auth
+	app.get(
+		'/auth/google',
+		passport.authenticate('google', {
+			scope: ['profile','email'],
+		})
+	);
+	app.get('/auth/google/callback',
+    passport.authenticate('google', { successRedirect: 'http://daq2-social-media-app-frontend.surge.sh/',
+        failureRedirect: 'http://daq2-social-media-app-frontend.surge.sh/login' }));
+
 	// validate user authentication
 	auth(app);
 
 	// Routes
 	app.use('/articles', articlesRouter);
 	app.use('/article', articleRouter);
-	app.use('/user-profile', profileRouter);
+	app.use('/profile', profileRouter);
 	app.use('/following', followingRouter);
 
 	// Get the port from the environment, i.e., Heroku sets it
-	const port = process.env.PORT || 3000;
+	const port = process.env.PORT || 4000;
 
 	const server = app.listen(port, () => {
 		const addr = server.address();

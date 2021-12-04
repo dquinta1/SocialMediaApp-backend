@@ -3,6 +3,7 @@ const {
 	QueryArticleById,
 	CreateNewArticle,
 	UpdateArticleById,
+	UploadArticleImageById,
 } = require('../services/articles-service');
 
 /**
@@ -25,12 +26,11 @@ async function GetArticles(req, res) {
 /**
  * Creates a new article authored by the loggedInUser
  * @param req The request containing the contents of the article to be created
- * @param res The response containing array of articles with newly added article
+ * @param res The response containing newly added article
  */
 async function AddNewArticle(req, res) {
 	const newArticle = await CreateNewArticle(req, res);
-	const articles = await GetArticles(req, res);
-	res.status(201).json(articles);
+	res.status(201).json(newArticle);
 }
 
 /**
@@ -41,8 +41,17 @@ async function AddNewArticle(req, res) {
 async function UpdateArticle(req, res) {
 	req.action = 'updateArticle';
 	const updatedArticle = await UpdateArticleById(req, res);
-	const articles = await GetArticles(req, res);
-	res.status(201).json(articles);
+	res.json(updatedArticle);
+}
+
+/**
+ * Upload an image to replace Article's current image
+ * @param req The request containing new Article properties to update
+ * @param res The response containing the updated article
+ */
+async function UpdateArticleImage(req, res) {
+	const updatedArticle = await UploadArticleImageById(req, res);
+	res.json(updatedArticle);
 }
 
 /**
@@ -84,6 +93,7 @@ module.exports = {
 	GetArticles,
 	AddNewArticle,
 	UpdateArticle,
+	UpdateArticleImage,
 	AddNewComment,
 	UpdateCommentAtIndex,
 	RemoveCommentAtIndex,

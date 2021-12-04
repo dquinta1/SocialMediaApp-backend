@@ -1,12 +1,9 @@
 # SocialMediaApp-backend
 
-This is a temporary repo to implement the backend for the SocialMediaApp project
-
 ### TODOs (by priority)
 
 #### Implement Functionality
 
-- permit users to upload profile avatars and articles with pictures
 - add a third-party authentication option
 - account linking with Google third-party authentication
 

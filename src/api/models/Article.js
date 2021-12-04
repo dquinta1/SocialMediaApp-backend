@@ -22,10 +22,7 @@ const articleSchema = new mongoose.Schema({
 		required: true,
 		default: Date.now,
 	},
-	image: {
-		type: String,
-		required: false,
-	},
+	img: '',
 	comments: [],
 });
 
